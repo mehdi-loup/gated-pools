@@ -17,7 +17,10 @@ export const EMAIL_VERIFIER_ADDRESS =
 export const DNS_SERVICE_URL = process.env.NEXT_PUBLIC_DNS_SERVICE_URL!;
 export const VLAYER_API_TOKEN = process.env.NEXT_PUBLIC_VLAYER_API_TOKEN!;
 export const PROVER_GAS_LIMIT = process.env.NEXT_PUBLIC_PROVER_GAS_LIMIT!;
-export const PROVER_URL=process.env.NEXT_PUBLIC_PROVER_URL!;
+export const PROVER_URL = process.env.NEXT_PUBLIC_PROVER_URL!;
+
+export const DAO_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_DAO_TOKEN_ADDRESS!;
+export const USDC_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_USDC_TOKEN_ADDRESS!;
 
 export const proverConfig = {
   proverUrl: PROVER_URL,
