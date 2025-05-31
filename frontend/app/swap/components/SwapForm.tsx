@@ -127,7 +127,7 @@ export function SwapForm({ emailContent, expectedDomain, onComplete }: { emailCo
               )}
 
               {/* Error message */}
-              {error && <div className="alert alert-danger">
+              {error && <div className="alert alert-error">
                 <Shield className="w-5 h-5" />
                 <div>
                   <h4 className="font-semibold">Oops...</h4>

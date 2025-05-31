@@ -5,14 +5,16 @@ import type React from "react"
 import { useState } from "react"
 import Navbar from "@/components/navbar"
 import { Building2, Coins, Shield, CheckCircle } from "lucide-react"
+import useCreateGatedPool from "@/hooks/gated-pool/useCreateGatedPool"
 
 export default function CreateDAOPage() {
   const [formData, setFormData] = useState({
     domainName: "",
     tokenAddress: "",
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+const {createPool,status} = useCreateGatedPool()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

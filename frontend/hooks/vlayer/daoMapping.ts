@@ -7,6 +7,7 @@ export type DAO = {
   emailDomain: string;
   token: string;
   domainHash: string;
+  tokenAddress: string;
 };
 
 export const DAO_MAPPING: DAO[] = [
@@ -14,6 +15,7 @@ export const DAO_MAPPING: DAO[] = [
     name: "MakerDAO",
     iconURL: "https://cryptologos.cc/logos/maker-mkr-logo.png?v=025",
     token: "MKR",
+    tokenAddress:"0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
     emailDomain: "makerdao.com",
     expectedDomain: "gmail.com",
     domainHash: keccak256(stringToBytes("gmail.com")),
@@ -22,6 +24,7 @@ export const DAO_MAPPING: DAO[] = [
     name: "Compound DAO",
     iconURL: "https://cryptologos.cc/logos/compound-comp-logo.png?v=025",
     token: "COMP",
+    tokenAddress: "0xc00e94cb662c3520282e6f5717214004a7f26888",
     emailDomain: "compound.finance",
     expectedDomain: "gmail.com",
     domainHash: keccak256(stringToBytes("gmail.com")),
@@ -30,6 +33,7 @@ export const DAO_MAPPING: DAO[] = [
     name: "Uniswap DAO",
     iconURL: "https://cryptologos.cc/logos/uniswap-uni-logo.png?v=025",
     token: "UNI",
+    tokenAddress:"0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
     emailDomain: "uniswap.org",
     expectedDomain: "gmail.com",
     domainHash: keccak256(stringToBytes("gmail.com")),
@@ -38,6 +42,7 @@ export const DAO_MAPPING: DAO[] = [
     name: "Aave DAO",
     iconURL: "https://cryptologos.cc/logos/aave-aave-logo.png?v=025",
     token: "AAVE",
+    tokenAddress:"0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
     emailDomain: "aave.com",
     expectedDomain: "gmail.com",
     domainHash: keccak256(stringToBytes("gmail.com")),
@@ -46,6 +51,7 @@ export const DAO_MAPPING: DAO[] = [
     name: "Curve DAO",
     iconURL: "https://cryptologos.cc/logos/curve-dao-crv-logo.png?v=025",
     token: "CRV",
+    tokenAddress:"0x0994206dfe8de6ec6920ff4d779b0d950605fb53",
     emailDomain: "curve.fi",
     expectedDomain: "gmail.com",
     domainHash: keccak256(stringToBytes("gmail.com")),
@@ -54,6 +60,7 @@ export const DAO_MAPPING: DAO[] = [
     name: "SushiSwap DAO",
     iconURL: "https://cryptologos.cc/logos/sushi-sushi-logo.png?v=025",
     token: "SUSHI",
+    tokenAddress:"0x6b3595068778dd592e39a122f4f5a5cf09c90fe2",
     emailDomain: "sushi.com",
     expectedDomain: "gmail.com",
     domainHash: keccak256(stringToBytes("gmail.com")),
@@ -62,6 +69,7 @@ export const DAO_MAPPING: DAO[] = [
     name: "Yearn Finance DAO",
     iconURL: "https://cryptologos.cc/logos/yearn-finance-yfi-logo.png?v=025",
     token: "YFI",
+    tokenAddress:"0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e",
     emailDomain: "yearn.finance",
     expectedDomain: "gmail.com",
     domainHash: keccak256(stringToBytes("gmail.com")),
@@ -78,6 +86,7 @@ export const DAO_MAPPING: DAO[] = [
     name: "Balancer DAO",
     iconURL: "https://cryptologos.cc/logos/balancer-bal-logo.png?v=025",
     token: "BAL",
+    tokenAddress:"0xba100000625a3754423978a60c9317c58a424e3d",
     emailDomain: "balancer.fi",
     expectedDomain: "gmail.com",
     domainHash: keccak256(stringToBytes("gmail.com")),
@@ -94,6 +103,7 @@ export const DAO_MAPPING: DAO[] = [
     name: "Gitcoin DAO",
     iconURL: "https://cryptologos.cc/logos/gitcoin-gtc-logo.png?v=025",
     token: "GTC",
+    tokenAddress:"0xDe30da39c46104798bB5aA3fe8B9e0e1F348163F",
     emailDomain: "gitcoin.co",
     expectedDomain: "gmail.com",
     domainHash: keccak256(stringToBytes("gmail.com")),
@@ -103,6 +113,7 @@ export const DAO_MAPPING: DAO[] = [
     iconURL:
       "https://cryptologos.cc/logos/ethereum-name-service-ens-logo.png?v=025",
     token: "ENS",
+    tokenAddress:"0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72",
     emailDomain: "ens.domains",
     expectedDomain: "gmail.com",
     domainHash: keccak256(stringToBytes("gmail.com")),
