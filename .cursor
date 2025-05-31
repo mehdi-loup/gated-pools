@@ -1,0 +1,27 @@
+{
+  "projectName": "Gated Pools",
+  "description": "A gated, cross-chain DEX liquidity pool designed for DAOs and foundations to offer their employees a private, low-fee swapping environment verified via vlayer email proofs. Built on Uniswap v4 and powered by LayerZero, it eliminates slippage loss to MEV bots by restricting access to trusted users while routing swaps seamlessly from any chain. Employees get better rates, DAOs retain token value, and arbitrage leakage is minimized — all without locking users into the system.",
+  "mainComponents": [
+    {
+      "name": "Frontend",
+      "path": "frontend/",
+      "description": "Frontend application"
+    },
+    {
+      "name": "Gated Pool Hook",
+      "path": "gated-pool-hook/",
+      "description": "Smart contract hook implementation"
+    }
+  ],
+  "techStack": [
+    "foundry",
+    "forge-std",
+    "v4-core",
+    "v4-periphery",
+    "uniswap-hooks"
+  ],
+  "importantPaths": {
+    "frontend": "frontend/",
+    "contracts": "gated-pool-hook/"
+  }
+}
