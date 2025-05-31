@@ -12,6 +12,7 @@ interface Token {
   icon: string
 }
 
+// Hardcoded for now, will be coming from a contract read
 const tokens: Token[] = [
   { symbol: "ETH", name: "Ethereum", address: "0x...", balance: "2.5", icon: "⟠" },
   { symbol: "USDC", name: "USD Coin", address: "0x...", balance: "1,250.00", icon: "💵" },
@@ -21,20 +22,13 @@ const tokens: Token[] = [
 
 export default function SwapPage() {
   const [fromToken, setFromToken] = useState<Token>(tokens[0])
-  const [toToken, setToToken] = useState<Token>(tokens[1])
   const [amount, setAmount] = useState("")
   const [step, setStep] = useState<"input" | "email" | "pending" | "success" | "rejected">("input")
   const [emailSent, setEmailSent] = useState(false)
   const [verificationEmail] = useState("verify@chaingate.dex")
 
-  const handleSwapTokens = () => {
-    const temp = fromToken
-    setFromToken(toToken)
-    setToToken(temp)
-  }
-
   const handleSubmitSwap = () => {
-    if (amount && fromToken && toToken) {
+    if (amount && fromToken) {
       setStep("email")
     }
   }
@@ -113,7 +107,7 @@ export default function SwapPage() {
                   <strong>
                     {amount} {fromToken.symbol}
                   </strong>{" "}
-                  for <strong>{toToken.symbol}</strong>, please send an email from your verified company email address.
+                  for <strong>USDC</strong>, please send an email from your verified company email address.
                 </p>
 
                 <div className="alert alert-info mb-6">
@@ -126,7 +120,7 @@ export default function SwapPage() {
                       </li>
                       <li>Use your company email address (@yourcompany.com)</li>
                       <li>
-                        Subject: "Swap Verification - {fromToken.symbol} to {toToken.symbol}"
+                        Subject: "Swap Verification - {fromToken.symbol} to USDC"
                       </li>
                       <li>Include your wallet address in the email body</li>
                     </ol>
@@ -207,7 +201,7 @@ export default function SwapPage() {
                   <strong>
                     {amount} {fromToken.symbol}
                   </strong>{" "}
-                  for <strong>{toToken.symbol}</strong> has been authorized and executed.
+                  for <strong>USDC</strong> has been authorized and executed.
                 </p>
 
                 <div className="stats shadow mb-6">
@@ -308,16 +302,6 @@ export default function SwapPage() {
                   </div>
                 </div>
 
-                {/* Swap Button */}
-                <div className="flex justify-center">
-                  <button className="btn btn-circle btn-outline" onClick={handleSwapTokens}>
-                    <ArrowDownUp className="w-5 h-5" />
-                  </button>
-                </div>
-
-                {/* To Token */}
-                {renderTokenSelector(toToken, setToToken, "To")}
-
                 {/* Estimated Output */}
                 {amount && (
                   <div className="alert alert-info">
@@ -325,7 +309,7 @@ export default function SwapPage() {
                     <div>
                       <h4 className="font-semibold">Estimated Output</h4>
                       <p>
-                        ≈ {(Number.parseFloat(amount) * 1.02).toFixed(4)} {toToken.symbol}
+                        ≈ {(Number.parseFloat(amount) * 1.02).toFixed(4)} USDC
                       </p>
                       <p className="text-xs opacity-70">Rate includes MEV protection premium</p>
                     </div>
@@ -347,7 +331,7 @@ export default function SwapPage() {
                 <button
                   className="btn btn-primary btn-lg w-full"
                   onClick={handleSubmitSwap}
-                  disabled={!amount || !fromToken || !toToken || Number.parseFloat(amount) <= 0}
+                  disabled={!amount || !fromToken || Number.parseFloat(amount) <= 0}
                 >
                   <Mail className="w-5 h-5 mr-2" />
                   Initiate Verified Swap

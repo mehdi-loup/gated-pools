@@ -8,12 +8,8 @@ import { Building2, Coins, Shield, CheckCircle } from "lucide-react"
 
 export default function CreateDAOPage() {
   const [formData, setFormData] = useState({
-    daoName: "",
     domainName: "",
     tokenAddress: "",
-    tokenSymbol: "",
-    description: "",
-    employeeEmails: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -47,12 +43,12 @@ export default function CreateDAOPage() {
                 <CheckCircle className="w-16 h-16 text-success mx-auto mb-4" />
                 <h2 className="card-title text-3xl justify-center mb-4">DAO Pool Created Successfully!</h2>
                 <p className="text-lg mb-6">
-                  Your gated liquidity pool for <strong>{formData.daoName}</strong> has been created. Employees with{" "}
+                  Your gated liquidity pool for <strong>{formData.domainName}</strong> has been created. Employees with{" "}
                   <strong>@{formData.domainName}</strong> email addresses can now access the private swap interface.
                 </p>
                 <div className="alert alert-info">
                   <Shield className="w-5 h-5" />
-                  <span>Pool verification and email domain setup will be completed within 24 hours.</span>
+                  <span>Pool verification and email domain setup instantly.</span>
                 </div>
                 <div className="card-actions justify-center mt-6">
                   <button className="btn btn-primary" onClick={() => setIsSuccess(false)}>
@@ -96,7 +92,7 @@ export default function CreateDAOPage() {
                       <input
                         type="text"
                         name="daoName"
-                        value={formData.daoName}
+                        value={formData.domainName}
                         onChange={handleInputChange}
                         placeholder="e.g., Ethereum Foundation"
                         className="input input-bordered w-full"
@@ -123,19 +119,6 @@ export default function CreateDAOPage() {
                         </span>
                       </label>
                     </div>
-
-                    <div className="form-control">
-                      <label className="label">
-                        <span className="label-text">Description</span>
-                      </label>
-                      <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleInputChange}
-                        placeholder="Brief description of your DAO and the purpose of this pool"
-                        className="textarea textarea-bordered h-24"
-                      />
-                    </div>
                   </div>
 
                   {/* Token Information */}
@@ -156,21 +139,6 @@ export default function CreateDAOPage() {
                         onChange={handleInputChange}
                         placeholder="0x..."
                         className="input input-bordered w-full font-mono"
-                        required
-                      />
-                    </div>
-
-                    <div className="form-control">
-                      <label className="label">
-                        <span className="label-text">Token Symbol</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="tokenSymbol"
-                        value={formData.tokenSymbol}
-                        onChange={handleInputChange}
-                        placeholder="e.g., ETH, UNI, COMP"
-                        className="input input-bordered w-full"
                         required
                       />
                     </div>
