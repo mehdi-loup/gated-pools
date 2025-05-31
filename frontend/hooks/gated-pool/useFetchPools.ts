@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createPublicClient, http, parseAbiItem } from "viem";
+import { createPublicClient, decodeEventLog, http, parseAbiItem } from "viem";
 import { GATED_POOL_HOOK_ADDRESS } from "./helpers";
 import { sepolia } from "viem/chains";
 
@@ -43,10 +43,19 @@ export function useFetchPools() {
         });
 
         // Transform logs into GatedPool objects
-        const fetchedPools = logs.map((log) => ({
-          poolId: log.args.poolId as string,
-          domainHash: log.args.domainHash as string,
-        }));
+        const fetchedPools = logs.map((log) => {
+          // Properly decode the event log to ensure args are defined
+          const decodedLog = decodeEventLog({
+            abi: [eventAbi],
+            data: log.data,
+            topics: log.topics,
+          });
+
+          return {
+            poolId: decodedLog.args.poolId as string,
+            domainHash: decodedLog.args.domainHash as string,
+          };
+        });
 
         setPools(fetchedPools);
         setError(null);
