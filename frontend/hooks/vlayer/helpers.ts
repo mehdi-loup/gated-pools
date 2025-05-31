@@ -12,8 +12,6 @@ export const getTargetEmailAddressAndId = (): {
 export const EMAIL_SERVICE_URL = process.env.NEXT_PUBLIC_EMAIL_SERVICE_URL!;
 export const EMAIL_PROVER_ADDRESS =
   process.env.NEXT_PUBLIC_EMAIL_PROVER_ADDRESS!;
-export const EMAIL_VERIFIER_ADDRESS =
-  process.env.NEXT_PUBLIC_EMAIL_VERIFIER_ADDRESS!;
 export const DNS_SERVICE_URL = process.env.NEXT_PUBLIC_DNS_SERVICE_URL!;
 export const VLAYER_API_TOKEN = process.env.NEXT_PUBLIC_VLAYER_API_TOKEN!;
 export const PROVER_GAS_LIMIT = process.env.NEXT_PUBLIC_PROVER_GAS_LIMIT!;

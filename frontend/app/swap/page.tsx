@@ -42,7 +42,7 @@ export default function SwapPage() {
         <div className="container mx-auto px-4 py-20">
           <div className="max-w-2xl mx-auto">
             <div className="card bg-base-200 shadow-xl">
-              <div className="card-body text-center">
+              <div className="card-body text-center items-center">
                 <House className="w-16 h-16 text-primary mx-auto mb-4" />
                 <h2 className="card-title text-2xl justify-center mb-4">Select your DAO</h2>
                 <p className="mb-6">
@@ -50,21 +50,18 @@ export default function SwapPage() {
                 </p>
 
                 <select defaultValue="Pick a dao" className="select" onChange={({ target: { value } }) => {
-                  console.log(value)
                   const nextDao = DAO_MAPPING.find(({ name }) => name === value);
 
                   setSelectedDao(nextDao);
                 }}>
                   {DAO_MAPPING.map((dao) => (
                     <option key={dao.name} value={dao.name} className="h-auto py-3">
-                      <DAOItem dao={dao} />
+                      {dao.name}
                     </option>
                   ))}
                 </select>
 
-
-
-                <div className="card-actions justify-center">
+                <div className="card-actions justify-center mt-6">
                   <button className="btn btn-primary" onClick={handleSubmitDao} disabled={!selectedDao?.expectedDomain}>
                     {selectedDao ? `I work for ${selectedDao.name} ✓` : "No dao selected"}
                   </button>

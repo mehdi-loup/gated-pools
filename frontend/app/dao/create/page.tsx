@@ -6,22 +6,26 @@ import { useState } from "react"
 import Navbar from "@/components/navbar"
 import { Building2, Coins, Shield, CheckCircle } from "lucide-react"
 import useCreateGatedPool from "@/hooks/gated-pool/useCreateGatedPool"
+import { Address, Hex, keccak256, stringToBytes } from "viem"
+import { stat } from "fs"
 
 export default function CreateDAOPage() {
   const [formData, setFormData] = useState({
-    domainName: "",
-    tokenAddress: "",
+    domainName: "" as Hex,
+    tokenAddress: "" as Address,
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-const {createPool,status} = useCreateGatedPool()
+  const [submitting, setIsSubmitting] = useState(false);
+  const [success, setIsSuccess] = useState(false);
+  const { createPool, status } = useCreateGatedPool(0, 100, keccak256(stringToBytes(formData.domainName)))
+  const isSubmitting = submitting || status === 'pending';
+  const isSuccess = success || status === 'success';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
 
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    await createPool();
 
     setIsSubmitting(false)
     setIsSuccess(true)
@@ -86,21 +90,6 @@ const {createPool,status} = useCreateGatedPool()
                       <Building2 className="w-5 h-5 mr-2 text-primary" />
                       DAO Information
                     </h3>
-
-                    <div className="form-control">
-                      <label className="label">
-                        <span className="label-text">DAO Name</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="daoName"
-                        value={formData.domainName}
-                        onChange={handleInputChange}
-                        placeholder="e.g., Ethereum Foundation"
-                        className="input input-bordered w-full"
-                        required
-                      />
-                    </div>
 
                     <div className="form-control">
                       <label className="label">

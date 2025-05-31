@@ -3,21 +3,16 @@ import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { GATED_POOL_HOOK_ADDRESS } from "./helpers";
 import { GatedPoolHookAbi } from "./abis/GatedPoolHookAbi";
 import { Address, Hex } from "viem";
+import { DAO_TOKEN_ADDRESS,USDC_TOKEN_ADDRESS } from "../vlayer/helpers";
 
 const useCreateGatedPool = (
-  token0: Address | undefined,
-  token1: Address | undefined,
-  fee: number | undefined,
-  initialTickSpacing: number | undefined,
-  domainHash: Hex | undefined
-): { createPool: () => Promise<void>; status: string | undefined } => {
-  if (!token0 || !token1 || !domainHash || !fee || !initialTickSpacing) {
-    return { createPool: async () => {}, status: undefined };
-  }
+  fee: number,
+  initialTickSpacing: number,
+  domainHash: Hex,
+): { createPool: () => Promise<void>; status: 'pending' | 'success' | 'idle' | 'error' } => {
+  const [status, setStatus] = useState<'pending' | 'success' | 'idle' | 'error'>('idle');
 
-  const [status, setStatus] = useState<string | undefined>(undefined);
-
-  const { writeContract, data, isPending } = useWriteContract();
+  const { writeContractAsync, data, isPending } = useWriteContract();
 
   const { isLoading: isWaiting, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({
@@ -34,14 +29,14 @@ const useCreateGatedPool = (
 
   const createPool = async () => {
     try {
-      writeContract({
+      await writeContractAsync({
         address: GATED_POOL_HOOK_ADDRESS,
         abi: GatedPoolHookAbi,
         functionName: "initializeGatedPool",
         args: [
           {
-            currency0: token0,
-            currency1: token1,
+            currency0: DAO_TOKEN_ADDRESS as `0x`,
+            currency1: USDC_TOKEN_ADDRESS as `0x`,
             fee,
             tickSpacing: initialTickSpacing,
             hooks: GATED_POOL_HOOK_ADDRESS,
