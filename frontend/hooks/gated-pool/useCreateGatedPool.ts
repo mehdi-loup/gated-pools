@@ -9,17 +9,9 @@ const useCreateGatedPool = (
   token1: Address | undefined,
   fee: number | undefined,
   initialTickSpacing: number | undefined,
-  domainHash: Hex | undefined,
-  verifier: Address | undefined
+  domainHash: Hex | undefined
 ): { createPool: () => Promise<void>; status: string | undefined } => {
-  if (
-    !token0 ||
-    !token1 ||
-    !domainHash ||
-    !verifier ||
-    !fee ||
-    !initialTickSpacing
-  ) {
+  if (!token0 || !token1 || !domainHash || !fee || !initialTickSpacing) {
     return { createPool: async () => {}, status: undefined };
   }
 
@@ -56,7 +48,6 @@ const useCreateGatedPool = (
           },
           BigInt("79228162514264337593543950336"),
           domainHash,
-          verifier,
         ],
       });
     } catch (error) {
