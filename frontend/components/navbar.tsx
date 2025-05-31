@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Shield, Zap } from "lucide-react"
+import { RainbowKitCustomConnectButton } from "./ConnectButton"
 
 export default function Navbar() {
   return (
@@ -30,10 +31,7 @@ export default function Navbar() {
         </ul>
       </div>
       <div className="navbar-end">
-        <button className="btn btn-primary">
-          <Zap className="w-4 h-4 mr-2" />
-          Connect Wallet
-        </button>
+        <RainbowKitCustomConnectButton />
       </div>
     </div>
   )
