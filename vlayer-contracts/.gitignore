@@ -1,0 +1,5 @@
+lib/
+**/dependencies/
+cache
+vlayer
+out
