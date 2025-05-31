@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-
-const emailServiceUrl = import.meta.env.VITE_EMAIL_SERVICE_URL;
+import { EMAIL_SERVICE_URL } from "./helpers";
 
 const useFetchEmail = (emailId: string | undefined): string | undefined => {
   const [emlFileData, setEmlFileData] = useState<string | undefined>(undefined);
@@ -9,7 +8,7 @@ const useFetchEmail = (emailId: string | undefined): string | undefined => {
   const { data, status } = useQuery({
     queryKey: ["receivedEmailEmlContent", emailId],
     queryFn: async () => {
-      const response = await fetch(`${emailServiceUrl}/${emailId}.eml`);
+      const response = await fetch(`${EMAIL_SERVICE_URL}/${emailId}.eml`);
       if (!response.ok) {
         throw new Error("Failed to fetch email");
       }

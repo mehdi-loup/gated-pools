@@ -7,7 +7,7 @@ endif
 
 CONTRACTS_DIR = ./out
 CONTRACTS = EmailDomainDAOProver EmailDomainDAOVerifier
-FRONTEND_ABI_DIR = ../frontend/hooks/abis
+FRONTEND_ABI_DIR = ../frontend/hooks/vlayer/abis
 
 .DEFAULT_GOAL := help
 
