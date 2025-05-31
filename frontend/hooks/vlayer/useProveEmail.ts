@@ -1,15 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
-import {
-  useWriteContract,
-  useWaitForTransactionReceipt,
-  useAccount,
-  useChainId,
-} from "wagmi";
-import {
-  useCallProver,
-  useWaitForProvingResult,
-  useChain,
-} from "@vlayer/react";
+import { useCallback } from "react";
+import { useChainId } from "wagmi";
+import { useCallProver, useWaitForProvingResult } from "@vlayer/react";
 import { BrandedHash, preverifyEmail } from "@vlayer/sdk";
 import emailProverSpec from "./abis/EmailDomainDAOProver.json";
 import { Abi, Address } from "viem";
@@ -39,7 +30,7 @@ const useGetEmailProof = (
     address: EMAIL_PROVER_ADDRESS as Address,
     proverAbi: emailProverSpec.abi as any,
     functionName: "main",
-    gasLimit: PROVER_GAS_LIMIT,
+    gasLimit: Number(PROVER_GAS_LIMIT),
     chainId: chainId,
   });
 
@@ -60,7 +51,7 @@ const useGetEmailProof = (
 
 type useProveEmailOutput = {
   startProving: () => Promise<void>;
-  proof: any;
+  proof: string | undefined;
   error: Error | null;
 };
 export const useProveEmail = (
@@ -76,7 +67,7 @@ export const useProveEmail = (
 
   return {
     startProving,
-    proof,
+    proof: proof as string | undefined,
     error: provingError || callProverError,
   };
 };
