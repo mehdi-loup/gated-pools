@@ -1,37 +1,41 @@
+"use client"
+
 import Navbar from "@/components/navbar"
+import { useFetchPools } from "@/hooks/gated-pool/useFetchPools";
 import { TrendingUp, Users, Lock, Zap } from "lucide-react"
 
 export default function PoolsPage() {
-  const pools = [
-    {
-      name: "Ethereum Foundation Pool",
-      domain: "ethereum.org",
-      token: "ETH",
-      tvl: "$2.4M",
-      volume24h: "$156K",
-      members: 45,
-      apy: "12.4%",
-    },
-    {
-      name: "Uniswap Labs Pool",
-      domain: "uniswap.org",
-      token: "UNI",
-      tvl: "$890K",
-      volume24h: "$67K",
-      members: 28,
-      apy: "8.7%",
-    },
-    {
-      name: "Compound Finance Pool",
-      domain: "compound.finance",
-      token: "COMP",
-      tvl: "$1.2M",
-      volume24h: "$89K",
-      members: 32,
-      apy: "15.2%",
-    },
-  ]
-
+  // const pools = [
+  //   {
+  //     name: "Ethereum Foundation Pool",
+  //     domain: "ethereum.org",
+  //     token: "ETH",
+  //     tvl: "$2.4M",
+  //     volume24h: "$156K",
+  //     members: 45,
+  //     apy: "12.4%",
+  //   },
+  //   {
+  //     name: "Uniswap Labs Pool",
+  //     domain: "uniswap.org",
+  //     token: "UNI",
+  //     tvl: "$890K",
+  //     volume24h: "$67K",
+  //     members: 28,
+  //     apy: "8.7%",
+  //   },
+  //   {
+  //     name: "Compound Finance Pool",
+  //     domain: "compound.finance",
+  //     token: "COMP",
+  //     tvl: "$1.2M",
+  //     volume24h: "$89K",
+  //     members: 32,
+  //     apy: "15.2%",
+  //   },
+  // ];
+  const {pools, error} = useFetchPools()
+console.log(pools,error)
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -45,8 +49,8 @@ export default function PoolsPage() {
           {pools.map((pool, index) => (
             <div key={index} className="card bg-base-200 shadow-xl token-card">
               <div className="card-body">
-                <h3 className="card-title text-lg">{pool.name}</h3>
-                <p className="text-sm opacity-70 mb-4">@{pool.domain}</p>
+                <h3 className="card-title text-lg">{pool.domainHash}</h3>
+                <p className="text-sm opacity-70 mb-4">@{pool.poolId}</p>
 
                 <div className="space-y-3">
                   <div className="flex justify-between">
@@ -54,7 +58,7 @@ export default function PoolsPage() {
                       <TrendingUp className="w-4 h-4 mr-2 text-primary" />
                       TVL
                     </span>
-                    <span className="font-semibold">{pool.tvl}</span>
+                    <span className="font-semibold">Soon ™️</span>
                   </div>
 
                   <div className="flex justify-between">
@@ -62,7 +66,7 @@ export default function PoolsPage() {
                       <Zap className="w-4 h-4 mr-2 text-accent" />
                       24h Volume
                     </span>
-                    <span className="font-semibold">{pool.volume24h}</span>
+                    <span className="font-semibold">Soon ™️</span>
                   </div>
 
                   <div className="flex justify-between">
@@ -70,7 +74,7 @@ export default function PoolsPage() {
                       <Users className="w-4 h-4 mr-2 text-secondary" />
                       Members
                     </span>
-                    <span className="font-semibold">{pool.members}</span>
+                    <span className="font-semibold">Soon ™️</span>
                   </div>
 
                   <div className="flex justify-between">
@@ -78,12 +82,12 @@ export default function PoolsPage() {
                       <Lock className="w-4 h-4 mr-2 text-success" />
                       APY
                     </span>
-                    <span className="font-semibold text-success">{pool.apy}</span>
+                    <span className="font-semibold text-success">Soon ™️</span>
                   </div>
                 </div>
 
                 <div className="card-actions justify-end mt-4">
-                  <div className="badge badge-outline">{pool.token}</div>
+                  <div className="badge badge-outline">Soon ™️</div>
                   <button className="btn btn-primary btn-sm">View Pool</button>
                 </div>
               </div>

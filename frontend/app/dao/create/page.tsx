@@ -133,16 +133,6 @@ export default function CreateDAOPage() {
                         required
                       />
                     </div>
-
-                    <div className="alert alert-info">
-                      <Shield className="w-5 h-5" />
-                      <div>
-                        <h4 className="font-semibold">Security Notice</h4>
-                        <p className="text-sm">
-                          Your token will be verified and integrated into our secure, MEV-protected liquidity pools.
-                        </p>
-                      </div>
-                    </div>
                   </div>
                 </div>
 

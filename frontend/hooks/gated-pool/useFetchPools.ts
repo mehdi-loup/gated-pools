@@ -38,7 +38,7 @@ export function useFetchPools() {
         const logs = await client.getLogs({
           address: GATED_POOL_HOOK_ADDRESS,
           event: eventAbi,
-          fromBlock: BigInt(0), // Start from genesis block
+          fromBlock: BigInt(8440000), // Start from genesis block
           toBlock: "latest",
         });
 
