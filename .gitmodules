@@ -10,3 +10,6 @@
 [submodule "gated-pool-hook/lib/uniswap-hooks"]
 	path = gated-pool-hook/lib/uniswap-hooks
 	url = https://github.com/openzeppelin/uniswap-hooks
+[submodule "gated-pool-hook/lib/vlayer"]
+	path = gated-pool-hook/lib/vlayer
+	url = https://github.com/vlayer-xyz/vlayer

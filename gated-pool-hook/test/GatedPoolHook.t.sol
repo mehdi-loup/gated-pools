@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.23;
+pragma solidity ^0.8.24;
 
 import "forge-std/Test.sol";
 import {IHooks} from "v4-core/src/interfaces/IHooks.sol";
@@ -18,6 +18,8 @@ import {LiquidityAmounts} from "v4-core/test/utils/LiquidityAmounts.sol";
 import {IPositionManager} from "v4-periphery/src/interfaces/IPositionManager.sol";
 import {EasyPosm} from "./utils/EasyPosm.sol";
 import {Fixtures} from "./utils/Fixtures.sol";
+import {Proof, Seal, CallAssumptions} from "vlayer/Proof.sol";
+import {ProofMode} from "vlayer/Seal.sol";
 
 contract GatedPoolHookTest is Test, Fixtures {
     using EasyPosm for IPositionManager;
@@ -35,7 +37,7 @@ contract GatedPoolHookTest is Test, Fixtures {
     function setUp() public {
         // create zk email verifier
         // Deploy the hook to an address with the correct flags
-        address verifier = address(keccak256("EmailVerifier"));
+        address verifier = address(uint160(uint256(keccak256("EmailVerifier"))));
         deployCodeTo("EmailVerifier.sol:EmailVerifier", "", verifier);
 
         // creates the pool manager, utility routers, and test tokens
@@ -56,6 +58,9 @@ contract GatedPoolHookTest is Test, Fixtures {
         key = PoolKey(currency0, currency1, 3000, 60, IHooks(hook));
         poolId = key.toId();
         manager.initialize(key, SQRT_PRICE_1_1);
+
+        // save verification params in the hook contract
+        hook.setupVerificationParams(key, bytes32(keccak256("somedomain")), verifier);
 
         // Provide full-range liquidity to the pool
         tickLower = TickMath.minUsableTick(key.tickSpacing);
@@ -87,12 +92,31 @@ contract GatedPoolHookTest is Test, Fixtures {
         // positions were created in setup()
 
         // verify that the pool domain hash is set
-        assertEq(hook.poolDomainHash(poolId), bytes32(0));
+        assertEq(hook.poolDomainHash(poolId), bytes32(keccak256("somedomain")));
 
         // Perform a test swap //
         bool zeroForOne = true;
         int256 amountSpecified = -1e18; // negative number indicates exact input swap!
-        BalanceDelta swapDelta = swap(key, zeroForOne, amountSpecified, ZERO_BYTES);
+        bytes memory proofCalldata = abi.encode(
+            Proof({
+                seal: Seal({
+                    verifierSelector: bytes4(0xdeafbeef), // FAKE_VERIFIER_SELECTOR
+                    seal: [bytes32(0), bytes32(0), bytes32(0), bytes32(0), bytes32(0), bytes32(0), bytes32(0), bytes32(0)],
+                    mode: ProofMode.FAKE
+                }),
+                callGuestId: bytes32(0),
+                length: 0,
+                callAssumptions: CallAssumptions({
+                    proverContractAddress: address(0),
+                    functionSelector: bytes4(0),
+                    settleChainId: block.chainid,
+                    settleBlockNumber: block.number - 1,
+                    settleBlockHash: blockhash(block.number - 1)
+                })
+            })
+        );
+
+        BalanceDelta swapDelta = swap(key, zeroForOne, amountSpecified, proofCalldata);
         // ------------------- //
 
         assertEq(int256(swapDelta.amount0()), amountSpecified);
