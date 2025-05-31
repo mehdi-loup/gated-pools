@@ -12,8 +12,7 @@ import {
 } from "@vlayer/react";
 import { BrandedHash, preverifyEmail } from "@vlayer/sdk";
 import emailProverSpec from "./abis/EmailDomainDAOProver.json";
-import emailVerifierSpec from "./abis/EmailDomainDAOVerifier.json";
-import { Abi, AbiStateMutability, Address, ContractFunctionArgs } from "viem";
+import { Abi, Address } from "viem";
 import {
   DNS_SERVICE_URL,
   EMAIL_PROVER_ADDRESS,
