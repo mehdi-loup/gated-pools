@@ -25,9 +25,7 @@ contract GatedPoolHook is BaseHook {
 
     error Unauthorized();
 
-    constructor(IPoolManager _poolManager) BaseHook(_poolManager) {
-        // poolDomainHash[PoolIdLibrary.getPoolId(PoolKey({token0: address(0), token1: address(0), fee: 0, tickSpacing: 0}))] = bytes32(0);
-    }
+    constructor(IPoolManager _poolManager) BaseHook(_poolManager) {}
 
     function getHookPermissions() public pure override returns (Hooks.Permissions memory) {
         return Hooks.Permissions({
