@@ -11,7 +11,8 @@ interface GatedPool {
 
 // ABI for the event we want to listen to
 const eventAbi = parseAbiItem(
-  "event VerificationParamsSetup(bytes32 indexed poolId, bytes32 domainHash)",
+  // "event VerificationParamsSetup(bytes32 indexed poolId, bytes32 domainHash)",
+  "event VerificationParamsSetup(PoolId poolId, bytes32 domainHash)",
 );
 
 /**
