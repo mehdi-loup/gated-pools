@@ -1,5 +1,7 @@
 lib/
 **/dependencies/
 cache
-vlayer
+./vlayer/
 out
+.DS_Store
+.env
