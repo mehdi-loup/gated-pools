@@ -11,28 +11,35 @@ import {BalanceDelta} from "v4-core/src/types/BalanceDelta.sol";
 import {PoolId, PoolIdLibrary} from "v4-core/src/types/PoolId.sol";
 import {CurrencyLibrary, Currency} from "v4-core/src/types/Currency.sol";
 import {PoolSwapTest} from "v4-core/src/test/PoolSwapTest.sol";
-import {Counter} from "../src/Counter.sol";
+import {GatedPoolHook} from "../src/GatedPoolHook.sol";
 import {StateLibrary} from "v4-core/src/libraries/StateLibrary.sol";
 
 import {LiquidityAmounts} from "v4-core/test/utils/LiquidityAmounts.sol";
 import {IPositionManager} from "v4-periphery/src/interfaces/IPositionManager.sol";
 import {EasyPosm} from "./utils/EasyPosm.sol";
 import {Fixtures} from "./utils/Fixtures.sol";
+import {Proof, Seal, CallAssumptions} from "vlayer/Proof.sol";
+import {ProofMode} from "vlayer/Seal.sol";
 
-contract CounterTest is Test, Fixtures {
+contract GatedPoolHookTest is Test, Fixtures {
     using EasyPosm for IPositionManager;
     using PoolIdLibrary for PoolKey;
     using CurrencyLibrary for Currency;
     using StateLibrary for IPoolManager;
 
-    Counter hook;
-    PoolId poolId;
+    GatedPoolHook public hook;
+    PoolId public poolId;
 
-    uint256 tokenId;
-    int24 tickLower;
-    int24 tickUpper;
+    uint256 public tokenId;
+    int24 public tickLower;
+    int24 public tickUpper;
 
     function setUp() public {
+        // create zk email verifier
+        // Deploy the hook to an address with the correct flags
+        address verifier = address(uint160(uint256(keccak256("EmailVerifier"))));
+        deployCodeTo("EmailVerifier.sol:EmailVerifier", "", verifier);
+
         // creates the pool manager, utility routers, and test tokens
         deployFreshManagerAndRouters();
         deployMintAndApprove2Currencies();
@@ -41,19 +48,18 @@ contract CounterTest is Test, Fixtures {
 
         // Deploy the hook to an address with the correct flags
         address flags = address(
-            uint160(
-                Hooks.BEFORE_SWAP_FLAG | Hooks.AFTER_SWAP_FLAG | Hooks.BEFORE_ADD_LIQUIDITY_FLAG
-                    | Hooks.BEFORE_REMOVE_LIQUIDITY_FLAG
-            ) ^ (0x4444 << 144) // Namespace the hook to avoid collisions
+            uint160(Hooks.BEFORE_SWAP_FLAG) ^ (0x4444 << 144) // Namespace the hook to avoid collisions
         );
-        bytes memory constructorArgs = abi.encode(manager); //Add all the necessary constructor arguments from the hook
-        deployCodeTo("Counter.sol:Counter", constructorArgs, flags);
-        hook = Counter(flags);
+        bytes memory constructorArgs = abi.encode(manager); // Add all the necessary constructor arguments from the hook
+        deployCodeTo("GatedPoolHook.sol:GatedPoolHook", constructorArgs, flags);
+        hook = GatedPoolHook(flags);
 
         // Create the pool
         key = PoolKey(currency0, currency1, 3000, 60, IHooks(hook));
         poolId = key.toId();
-        manager.initialize(key, SQRT_PRICE_1_1);
+
+        // save verification params in the hook contract
+        hook.initializeGatedPool(key, SQRT_PRICE_1_1, bytes32(keccak256("somedomain")), verifier);
 
         // Provide full-range liquidity to the pool
         tickLower = TickMath.minUsableTick(key.tickSpacing);
@@ -81,44 +87,40 @@ contract CounterTest is Test, Fixtures {
         );
     }
 
-    function testCounterHooks() public {
+    function testGatedPoolHookHooks() public {
         // positions were created in setup()
-        assertEq(hook.beforeAddLiquidityCount(poolId), 1);
-        assertEq(hook.beforeRemoveLiquidityCount(poolId), 0);
 
-        assertEq(hook.beforeSwapCount(poolId), 0);
-        assertEq(hook.afterSwapCount(poolId), 0);
+        // verify that the pool domain hash is set
+        assertEq(hook.poolDomainHash(poolId), bytes32(keccak256("somedomain")));
 
         // Perform a test swap //
         bool zeroForOne = true;
         int256 amountSpecified = -1e18; // negative number indicates exact input swap!
-        BalanceDelta swapDelta = swap(key, zeroForOne, amountSpecified, ZERO_BYTES);
+        bytes memory proofCalldata = abi.encode(
+            Proof({
+                seal: Seal({
+                    verifierSelector: bytes4(0xdeafbeef), // FAKE_VERIFIER_SELECTOR
+                    seal: [bytes32(0), bytes32(0), bytes32(0), bytes32(0), bytes32(0), bytes32(0), bytes32(0), bytes32(0)],
+                    mode: ProofMode.FAKE
+                }),
+                callGuestId: bytes32(0),
+                length: 0,
+                callAssumptions: CallAssumptions({
+                    proverContractAddress: address(0),
+                    functionSelector: bytes4(0),
+                    settleChainId: block.chainid,
+                    settleBlockNumber: block.number - 1,
+                    settleBlockHash: blockhash(block.number - 1)
+                })
+            })
+        );
+
+        BalanceDelta swapDelta = swap(key, zeroForOne, amountSpecified, proofCalldata);
         // ------------------- //
 
         assertEq(int256(swapDelta.amount0()), amountSpecified);
 
-        assertEq(hook.beforeSwapCount(poolId), 1);
-        assertEq(hook.afterSwapCount(poolId), 1);
-    }
-
-    function testLiquidityHooks() public {
-        // positions were created in setup()
-        assertEq(hook.beforeAddLiquidityCount(poolId), 1);
-        assertEq(hook.beforeRemoveLiquidityCount(poolId), 0);
-
-        // remove liquidity
-        uint256 liquidityToRemove = 1e18;
-        posm.decreaseLiquidity(
-            tokenId,
-            liquidityToRemove,
-            MAX_SLIPPAGE_REMOVE_LIQUIDITY,
-            MAX_SLIPPAGE_REMOVE_LIQUIDITY,
-            address(this),
-            block.timestamp,
-            ZERO_BYTES
-        );
-
-        assertEq(hook.beforeAddLiquidityCount(poolId), 1);
-        assertEq(hook.beforeRemoveLiquidityCount(poolId), 1);
+        // assertEq(hook.beforeSwapCount(poolId), 1);
+        // assertEq(hook.afterSwapCount(poolId), 1);
     }
 }
