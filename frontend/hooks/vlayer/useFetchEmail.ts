@@ -15,8 +15,8 @@ const useFetchEmail = (emailId: string | undefined): string | undefined => {
       return response.text();
     },
     enabled: !!emailId,
-    retry: 6,
-    retryDelay: 10000, // 10 sec delay between fetch retries
+    retry: 10,
+    retryDelay: 5000, // 10 sec delay between fetch retries
   });
 
   useEffect(() => {

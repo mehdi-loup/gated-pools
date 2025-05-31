@@ -27,7 +27,7 @@ export const RainbowKitCustomConnectButton = () => {
               if (!connected) {
                 return (
                   <button
-                    className="btn btn-lg bg-white/25  text-black border-0"
+                    className="btn btn-md btn-primary text-black border-0"
                     onClick={openConnectModal}
                     type="button"
                   >
@@ -41,10 +41,10 @@ export const RainbowKitCustomConnectButton = () => {
               }
 
               return (
-                <div>
+                <div  className="flex gap-2">
                   {ensAvatar && <img alt="ENS Avatar" src={ensAvatar} />}
-                  {address && <div>{formatAddressOrEns(address, ensName)}</div>}
-                    <button className="btn btn-lg  bg-white/25 text-black border-0" onClick={() => disconnect()}>
+                  {address && <div  className="flex items-center">{formatAddressOrEns(address, ensName)}</div>}
+                    <button className="btn btn-sm bg-white/25 text-black border-0" onClick={() => disconnect()}>
                       Disconnect
                     </button>
                 </div>
