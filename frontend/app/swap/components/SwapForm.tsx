@@ -29,7 +29,9 @@ export function SwapForm({ emailContent, expectedDomain, onComplete }: { emailCo
   }
 
   useEffect(() => {
+    console.log(proof, error);
     if (!proof || error) return;
+
     // initiate swap
   }, [proof, error])
 
