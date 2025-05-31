@@ -19,14 +19,17 @@ contract GatedPoolHook is BaseHook {
     using PoolIdLibrary for PoolKey;
 
     mapping(PoolId => bytes32) public poolDomainHash;
-    mapping(PoolId => address) public poolVerifier;
 
-    event VerificationParamsSetup(PoolId poolId, bytes32 domainHash, address verifier);
+    IEmailVerifier public immutable EMAIL_VERIFIER;
+
+    event VerificationParamsSetup(PoolId poolId, bytes32 domainHash);
 
     error Unauthorized();
     error WRONG_HOOK();
 
-    constructor(IPoolManager _poolManager) BaseHook(_poolManager) {}
+    constructor(IPoolManager _poolManager, address _emailVerifier) BaseHook(_poolManager) {
+        EMAIL_VERIFIER = IEmailVerifier(_emailVerifier);
+    }
 
     function getHookPermissions() public pure override returns (Hooks.Permissions memory) {
         return Hooks.Permissions({
@@ -47,7 +50,7 @@ contract GatedPoolHook is BaseHook {
         });
     }
 
-    function initializeGatedPool(PoolKey memory key, uint160 sqrtPriceX96, bytes32 domainHash, address verifier)
+    function initializeGatedPool(PoolKey memory key, uint160 sqrtPriceX96, bytes32 domainHash)
         external
         returns (int24 tick)
     {
@@ -58,9 +61,8 @@ contract GatedPoolHook is BaseHook {
 
         // Then setup verification params
         poolDomainHash[key.toId()] = domainHash;
-        poolVerifier[key.toId()] = verifier;
 
-        emit VerificationParamsSetup(key.toId(), domainHash, verifier);
+        emit VerificationParamsSetup(key.toId(), domainHash);
     }
 
     // -----------------------------------------------
@@ -75,7 +77,7 @@ contract GatedPoolHook is BaseHook {
         // use hook data to verify that the swap is authorized.
         bytes32 domainHash = poolDomainHash[key.toId()];
         Proof memory proof = abi.decode(hookData, (Proof));
-        (, bool verified) = IEmailVerifier(poolVerifier[key.toId()]).verify(proof, domainHash);
+        (, bool verified) = EMAIL_VERIFIER.verify(proof, domainHash);
 
         if (!verified) revert Unauthorized();
 

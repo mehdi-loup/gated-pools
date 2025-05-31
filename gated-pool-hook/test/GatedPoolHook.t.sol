@@ -50,7 +50,7 @@ contract GatedPoolHookTest is Test, Fixtures {
         address flags = address(
             uint160(Hooks.BEFORE_SWAP_FLAG) ^ (0x4444 << 144) // Namespace the hook to avoid collisions
         );
-        bytes memory constructorArgs = abi.encode(manager); // Add all the necessary constructor arguments from the hook
+        bytes memory constructorArgs = abi.encode(manager, verifier); // Add all the necessary constructor arguments from the hook
         deployCodeTo("GatedPoolHook.sol:GatedPoolHook", constructorArgs, flags);
         hook = GatedPoolHook(flags);
 
@@ -59,7 +59,7 @@ contract GatedPoolHookTest is Test, Fixtures {
         poolId = key.toId();
 
         // save verification params in the hook contract
-        hook.initializeGatedPool(key, SQRT_PRICE_1_1, bytes32(keccak256("somedomain")), verifier);
+        hook.initializeGatedPool(key, SQRT_PRICE_1_1, bytes32(keccak256("somedomain")));
 
         // Provide full-range liquidity to the pool
         tickLower = TickMath.minUsableTick(key.tickSpacing);

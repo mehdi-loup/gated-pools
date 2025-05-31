@@ -24,6 +24,7 @@ import {DeployPermit2} from "../test/utils/forks/DeployPermit2.sol";
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
 import {IPositionDescriptor} from "v4-periphery/src/interfaces/IPositionDescriptor.sol";
 import {IWETH9} from "v4-periphery/src/interfaces/external/IWETH9.sol";
+import {EmailVerifier} from "../src/verifier/EmailVerifier.sol";
 
 /// @notice Forge script for deploying v4 & hooks to **anvil**
 contract GatedPoolHookScript is Script, DeployPermit2 {
@@ -48,14 +49,16 @@ contract GatedPoolHookScript is Script, DeployPermit2 {
         );
 
         // Mine a salt that will produce a hook address with the correct permissions
-        (address hookAddress, bytes32 salt) =
-            HookMiner.find(CREATE2_DEPLOYER, permissions, type(GatedPoolHook).creationCode, abi.encode(address(manager)));
+        (address hookAddress, bytes32 salt) = HookMiner.find(
+            CREATE2_DEPLOYER, permissions, type(GatedPoolHook).creationCode, abi.encode(address(manager))
+        );
 
         // ----------------------------- //
         // Deploy the hook using CREATE2 //
         // ----------------------------- //
         vm.broadcast();
-        GatedPoolHook gatedPool = new GatedPoolHook{salt: salt}(manager);
+        EmailVerifier emailVerifier = new EmailVerifier();
+        GatedPoolHook gatedPool = new GatedPoolHook{salt: salt}(manager, address(emailVerifier));
         require(address(gatedPool) == hookAddress, "GatedPoolHookScript: hook address mismatch");
 
         // Additional helpers for interacting with the pool

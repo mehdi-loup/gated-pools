@@ -22,7 +22,7 @@ contract DeployScript is Script {
 
         // Deploy PoolManager first
         IPoolManager manager = IPoolManager(vm.envAddress("POOL_MANAGER_ADDRESS"));
-        console.log("manager", address(manager));
+        IPoolManager emailVerifier = IPoolManager(vm.envAddress("EMAIL_VERIFIER"));
 
         // Define the flags needed for the hook
         uint160 flags = uint160(Hooks.BEFORE_SWAP_FLAG);
@@ -33,7 +33,7 @@ contract DeployScript is Script {
             HookMiner.find(CREATE2_DEPLOYER, flags, type(GatedPoolHook).creationCode, constructorArgs);
 
         // Deploy the hook using CREATE2 with the mined salt
-        GatedPoolHook hook = new GatedPoolHook{salt: salt}(manager);
+        GatedPoolHook hook = new GatedPoolHook{salt: salt}(manager, address(emailVerifier));
         require(address(hook) == hookAddress, "Hook deployed to wrong address");
 
         console.log("GatedPoolHook deployed to:", address(hook));

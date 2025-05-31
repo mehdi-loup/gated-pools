@@ -27,7 +27,7 @@ contract GatedPoolHookScript is Script, Constants {
 
         // Deploy the hook using CREATE2
         vm.broadcast();
-        GatedPoolHook gatedPool = new GatedPoolHook{salt: salt}(IPoolManager(POOLMANAGER));
+        GatedPoolHook gatedPool = new GatedPoolHook{salt: salt}(IPoolManager(POOLMANAGER), address(EMAIL_VERIFIER));
         require(address(gatedPool) == hookAddress, "GatedPoolHookScript: hook address mismatch");
     }
 }
