@@ -15,7 +15,9 @@ contract GatedPoolHook is BaseHook {
 
     mapping(PoolId => bytes32) public poolDomainHash;
 
-    constructor(IPoolManager _poolManager) BaseHook(_poolManager) {}
+    constructor(IPoolManager _poolManager) BaseHook(_poolManager) {
+      // poolDomainHash[PoolIdLibrary.getPoolId(PoolKey({token0: address(0), token1: address(0), fee: 0, tickSpacing: 0}))] = bytes32(0);
+    }
 
     function getHookPermissions() public pure override returns (Hooks.Permissions memory) {
         return Hooks.Permissions({
@@ -46,6 +48,7 @@ contract GatedPoolHook is BaseHook {
         returns (bytes4, BeforeSwapDelta, uint24)
     {
         // use calldata to verify that the swap is authorized.
+        revert();
 
         return (BaseHook.beforeSwap.selector, BeforeSwapDeltaLibrary.ZERO_DELTA, 0);
     }

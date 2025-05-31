@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.24;
+pragma solidity ^0.8.23;
 
 import "forge-std/Test.sol";
 import {IHooks} from "v4-core/src/interfaces/IHooks.sol";
@@ -33,6 +33,11 @@ contract GatedPoolHookTest is Test, Fixtures {
     int24 tickUpper;
 
     function setUp() public {
+        // create zk email verifier
+        // Deploy the hook to an address with the correct flags
+        address verifier = address(keccak256("EmailVerifier"));
+        deployCodeTo("EmailVerifier.sol:EmailVerifier", "", verifier);
+
         // creates the pool manager, utility routers, and test tokens
         deployFreshManagerAndRouters();
         deployMintAndApprove2Currencies();
@@ -41,9 +46,7 @@ contract GatedPoolHookTest is Test, Fixtures {
 
         // Deploy the hook to an address with the correct flags
         address flags = address(
-            uint160(
-                Hooks.BEFORE_SWAP_FLAG
-            ) ^ (0x4444 << 144) // Namespace the hook to avoid collisions
+            uint160(Hooks.BEFORE_SWAP_FLAG) ^ (0x4444 << 144) // Namespace the hook to avoid collisions
         );
         bytes memory constructorArgs = abi.encode(manager); // Add all the necessary constructor arguments from the hook
         deployCodeTo("GatedPoolHook.sol:GatedPoolHook", constructorArgs, flags);
@@ -97,5 +100,4 @@ contract GatedPoolHookTest is Test, Fixtures {
         // assertEq(hook.beforeSwapCount(poolId), 1);
         // assertEq(hook.afterSwapCount(poolId), 1);
     }
-
 }
