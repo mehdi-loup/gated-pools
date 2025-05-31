@@ -1,5 +1,23 @@
 import { keccak256, stringToBytes } from "viem";
 
+// {
+//   name: "GatedDAO",
+//   iconURL: "https://cryptologos.cc/logos/maker-mkr-logo.png?v=025",
+//   token: "DAO",
+//   tokenAddress: "0x7b33F3F4EB34B30cC9239869c95018Cf486DB678",
+//   emailDomain: "gateddao.com",
+//   expectedDomain: "gmail.com",
+//   domainHash: keccak256(stringToBytes("gmail.com")),
+// },
+// {
+//   name: "MakerDAO",
+//   iconURL: "https://cryptologos.cc/logos/maker-mkr-logo.png?v=025",
+//   token: "MKR",
+//   tokenAddress: "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
+//   emailDomain: "makerdao.com",
+//   expectedDomain: "gmail.com",
+//   domainHash: keccak256(stringToBytes("outlook.com")),
+// },
 export type DAO = {
   name: string;
   iconURL: string;
@@ -10,15 +28,28 @@ export type DAO = {
   tokenAddress: string;
 };
 
+export type Pool = DAO & {
+  poolId: string;
+};
+
 export const DAO_MAPPING: DAO[] = [
+  {
+    name: "GatedDAO",
+    iconURL: "https://cryptologos.cc/logos/maker-mkr-logo.png?v=025",
+    token: "DAO",
+    tokenAddress: "0x7b33F3F4EB34B30cC9239869c95018Cf486DB678",
+    emailDomain: "gateddao.com",
+    expectedDomain: "gmail.com",
+    domainHash: keccak256(stringToBytes("gmail.com")),
+  },
   {
     name: "MakerDAO",
     iconURL: "https://cryptologos.cc/logos/maker-mkr-logo.png?v=025",
     token: "MKR",
     tokenAddress: "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
     emailDomain: "makerdao.com",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "outlook.com",
+    domainHash: keccak256(stringToBytes("outlook.com")),
   },
   {
     name: "Compound DAO",
@@ -26,8 +57,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "COMP",
     tokenAddress: "0xc00e94cb662c3520282e6f5717214004a7f26888",
     emailDomain: "compound.finance",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "compound.finance",
+    domainHash: keccak256(stringToBytes("compound.finance")),
   },
   {
     name: "Uniswap DAO",
@@ -35,8 +66,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "UNI",
     tokenAddress: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
     emailDomain: "uniswap.org",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "uniswap.org",
+    domainHash: keccak256(stringToBytes("uniswap.org")),
   },
   {
     name: "Aave DAO",
@@ -44,8 +75,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "AAVE",
     tokenAddress: "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
     emailDomain: "aave.com",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "aave.com",
+    domainHash: keccak256(stringToBytes("aave.com")),
   },
   {
     name: "Curve DAO",
@@ -53,8 +84,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "CRV",
     tokenAddress: "0x0994206dfe8de6ec6920ff4d779b0d950605fb53",
     emailDomain: "curve.fi",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "curve.fi",
+    domainHash: keccak256(stringToBytes("curve.fi")),
   },
   {
     name: "SushiSwap DAO",
@@ -62,8 +93,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "SUSHI",
     tokenAddress: "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2",
     emailDomain: "sushi.com",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "sushi.com",
+    domainHash: keccak256(stringToBytes("sushi.com")),
   },
   {
     name: "Yearn Finance DAO",
@@ -71,8 +102,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "YFI",
     tokenAddress: "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e",
     emailDomain: "yearn.finance",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "yearn.finance",
+    domainHash: keccak256(stringToBytes("yearn.finance")),
   },
   {
     name: "Aragon DAO",
@@ -80,8 +111,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "ANT",
     tokenAddress: "0xa117000000f279D81A1D3cc75430fAA017FA5A2e",
     emailDomain: "aragon.org",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "aragon.org",
+    domainHash: keccak256(stringToBytes("aragon.org")),
   },
   {
     name: "Balancer DAO",
@@ -89,8 +120,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "BAL",
     tokenAddress: "0xba100000625a3754423978a60c9317c58a424e3d",
     emailDomain: "balancer.fi",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "balancer.fi",
+    domainHash: keccak256(stringToBytes("balancer.fi")),
   },
   {
     name: "Synthetix DAO",
@@ -98,8 +129,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "SNX",
     tokenAddress: "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F",
     emailDomain: "synthetix.io",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "synthetix.io",
+    domainHash: keccak256(stringToBytes("synthetix.io")),
   },
   {
     name: "Gitcoin DAO",
@@ -107,8 +138,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "GTC",
     tokenAddress: "0xDe30da39c46104798bB5aA3fe8B9e0e1F348163F",
     emailDomain: "gitcoin.co",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "gitcoin.co",
+    domainHash: keccak256(stringToBytes("gitcoin.co")),
   },
   {
     name: "ENS DAO",
@@ -117,8 +148,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "ENS",
     tokenAddress: "0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72",
     emailDomain: "ens.domains",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "ens.domains",
+    domainHash: keccak256(stringToBytes("ens.domains")),
   },
   {
     name: "Lido DAO",
@@ -126,8 +157,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "LDO",
     tokenAddress: "0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32",
     emailDomain: "lido.fi",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "lido.fi",
+    domainHash: keccak256(stringToBytes("lido.fi")),
   },
   {
     name: "Frax Finance DAO",
@@ -135,8 +166,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "FXS",
     tokenAddress: "0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0",
     emailDomain: "frax.finance",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "frax.finance",
+    domainHash: keccak256(stringToBytes("frax.finance")),
   },
   {
     name: "The Graph DAO",
@@ -144,8 +175,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "GRT",
     tokenAddress: "0xc944E90C64B2c07662A292be6244BDf05Cda44a7",
     emailDomain: "thegraph.com",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "thegraph.com",
+    domainHash: keccak256(stringToBytes("thegraph.com")),
   },
   {
     name: "Decentraland DAO",
@@ -153,8 +184,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "MANA",
     tokenAddress: "0x0F5D2fB29fb7d3CFeE444a200298f468908cC942",
     emailDomain: "decentraland.org",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "decentraland.org",
+    domainHash: keccak256(stringToBytes("decentraland.org")),
   },
   {
     name: "PancakeSwap DAO",
@@ -162,8 +193,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "CAKE",
     tokenAddress: "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82",
     emailDomain: "pancakeswap.finance",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "pancakeswap.finance",
+    domainHash: keccak256(stringToBytes("pancakeswap.finance")),
   },
   {
     name: "UMA DAO",
@@ -171,8 +202,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "UMA",
     tokenAddress: "0x04Fa0d235C4abf4BcF4787aF4CF447DE572eF828",
     emailDomain: "uma.xyz",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "uma.xyz",
+    domainHash: keccak256(stringToBytes("uma.xyz")),
   },
   {
     name: "Gnosis DAO",
@@ -180,8 +211,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "GNO",
     tokenAddress: "0x6810e776880C02933D47DB1b9fc05908e5386b96",
     emailDomain: "gnosis.io",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "gnosis.io",
+    domainHash: keccak256(stringToBytes("gnosis.io")),
   },
   {
     name: "1inch DAO",
@@ -189,8 +220,8 @@ export const DAO_MAPPING: DAO[] = [
     token: "1INCH",
     tokenAddress: "0x111111111117dC0aa78b770fA6A738034120C302",
     emailDomain: "1inch.io",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "1inch.io",
+    domainHash: keccak256(stringToBytes("1inch.io")),
   },
   {
     name: "Ocean DAO",
@@ -198,7 +229,7 @@ export const DAO_MAPPING: DAO[] = [
     token: "OCEAN",
     tokenAddress: "0x967da4048cD07aB37855c090aAF366e4ce1b9F48",
     emailDomain: "oceanprotocol.com",
-    expectedDomain: "gmail.com",
-    domainHash: keccak256(stringToBytes("gmail.com")),
+    expectedDomain: "oceanprotocol.com",
+    domainHash: keccak256(stringToBytes("oceanprotocol.com")),
   },
 ];

@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import { createPublicClient, decodeEventLog, http, parseAbiItem } from "viem";
 import { GATED_POOL_HOOK_ADDRESS } from "./helpers";
 import { sepolia } from "viem/chains";
-
-// Define the return type for our hook
-interface GatedPool {
-  poolId: string;
-  domainHash: string;
-}
+import { DAO_MAPPING, Pool } from "../vlayer/daoMapping";
 
 // ABI for the event we want to listen to
 const eventAbi = parseAbiItem(
@@ -20,7 +15,7 @@ const eventAbi = parseAbiItem(
  * @returns An object containing the pools, loading state, and error state
  */
 export function useFetchPools() {
-  const [pools, setPools] = useState<GatedPool[]>([]);
+  const [pools, setPools] = useState<Pool[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -51,11 +46,15 @@ export function useFetchPools() {
             data: log.data,
             topics: log.topics,
           });
-
+          const dao = DAO_MAPPING.find(
+            (d) =>
+              d.domainHash.toLowerCase() ==
+              decodedLog.args.domainHash.toLowerCase(),
+          )!;
           return {
+            ...dao,
             poolId: decodedLog.args.poolId as string,
-            domainHash: decodedLog.args.domainHash as string,
-          };
+          } satisfies Pool;
         });
 
         setPools(fetchedPools);
