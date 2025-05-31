@@ -42,8 +42,19 @@ deploy: ## Deploy contract(s) to the specified network
 	@forge script script/Deploy.s.sol \
 		--rpc-url $(RPC_URL) \
 		--private-key $(PRIVATE_KEY) \
-		--broadcast
+		--broadcast \
+		--verify \
+		--verifier blockscout \
+		--verifier-url https://eth-sepolia.blockscout.com/api/
 
+verify:
+	@forge verify-contract \
+		--rpc-url $(RPC_URL) \
+		"0x420A8B620D23c2990f797Bbf8E4da06EDE468080" \
+		./src/GatedPoolHook.sol:GatedPoolHook \
+		--constructor-args $(POOL_MANAGER_ADDRESS) \
+		--verifier blockscout \
+		--verifier-url https://eth-sepolia.blockscout.com/api/
 
 help: ## Show available Make targets
 	@echo "Usage: make [target]"

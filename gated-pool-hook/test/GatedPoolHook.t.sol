@@ -27,12 +27,12 @@ contract GatedPoolHookTest is Test, Fixtures {
     using CurrencyLibrary for Currency;
     using StateLibrary for IPoolManager;
 
-    GatedPoolHook hook;
-    PoolId poolId;
+    GatedPoolHook public hook;
+    PoolId public poolId;
 
-    uint256 tokenId;
-    int24 tickLower;
-    int24 tickUpper;
+    uint256 public tokenId;
+    int24 public tickLower;
+    int24 public tickUpper;
 
     function setUp() public {
         // create zk email verifier
@@ -57,10 +57,9 @@ contract GatedPoolHookTest is Test, Fixtures {
         // Create the pool
         key = PoolKey(currency0, currency1, 3000, 60, IHooks(hook));
         poolId = key.toId();
-        manager.initialize(key, SQRT_PRICE_1_1);
 
         // save verification params in the hook contract
-        hook.setupVerificationParams(key, bytes32(keccak256("somedomain")), verifier);
+        hook.initializeGatedPool(key, SQRT_PRICE_1_1, bytes32(keccak256("somedomain")), verifier);
 
         // Provide full-range liquidity to the pool
         tickLower = TickMath.minUsableTick(key.tickSpacing);

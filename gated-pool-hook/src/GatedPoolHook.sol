@@ -24,6 +24,7 @@ contract GatedPoolHook is BaseHook {
     event VerificationParamsSetup(PoolId poolId, bytes32 domainHash, address verifier);
 
     error Unauthorized();
+    error WRONG_HOOK();
 
     constructor(IPoolManager _poolManager) BaseHook(_poolManager) {}
 
@@ -46,13 +47,16 @@ contract GatedPoolHook is BaseHook {
         });
     }
 
-    // TODO should add this in the same transaction as the pool deployment
-    function setupVerificationParams(PoolKey calldata key, bytes32 domainHash, address verifier) external {
-        if (poolDomainHash[key.toId()] != bytes32(0)) revert("Already setup");
-        if (poolVerifier[key.toId()] != address(0)) revert("Already setup");
+    function initializeGatedPool(PoolKey memory key, uint160 sqrtPriceX96, bytes32 domainHash, address verifier)
+        external
+        returns (int24 tick)
+    {
+        if (address(key.hooks) != address(this)) revert WRONG_HOOK();
 
-        // TODO check that the pool is initialized
+        // Initialize the pool first
+        tick = poolManager.initialize(key, sqrtPriceX96);
 
+        // Then setup verification params
         poolDomainHash[key.toId()] = domainHash;
         poolVerifier[key.toId()] = verifier;
 
