@@ -7,8 +7,26 @@ export const GatedPoolHookAbi = [
         type: "address",
         internalType: "contract IPoolManager",
       },
+      {
+        name: "_emailVerifier",
+        type: "address",
+        internalType: "address",
+      },
     ],
     stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "EMAIL_VERIFIER",
+    inputs: [],
+    outputs: [
+      {
+        name: "",
+        type: "address",
+        internalType: "contract IEmailVerifier",
+      },
+    ],
+    stateMutability: "view",
   },
   {
     type: "function",
@@ -584,7 +602,6 @@ export const GatedPoolHookAbi = [
         internalType: "uint160",
       },
       { name: "domainHash", type: "bytes32", internalType: "bytes32" },
-      { name: "verifier", type: "address", internalType: "address" },
     ],
     outputs: [{ name: "tick", type: "int24", internalType: "int24" }],
     stateMutability: "nonpayable",
@@ -610,13 +627,6 @@ export const GatedPoolHookAbi = [
     stateMutability: "view",
   },
   {
-    type: "function",
-    name: "poolVerifier",
-    inputs: [{ name: "", type: "bytes32", internalType: "PoolId" }],
-    outputs: [{ name: "", type: "address", internalType: "address" }],
-    stateMutability: "view",
-  },
-  {
     type: "event",
     name: "VerificationParamsSetup",
     inputs: [
@@ -631,12 +641,6 @@ export const GatedPoolHookAbi = [
         type: "bytes32",
         indexed: false,
         internalType: "bytes32",
-      },
-      {
-        name: "verifier",
-        type: "address",
-        indexed: false,
-        internalType: "address",
       },
     ],
     anonymous: false,

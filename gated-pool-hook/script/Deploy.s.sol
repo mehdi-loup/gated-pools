@@ -28,7 +28,7 @@ contract DeployScript is Script {
         uint160 flags = uint160(Hooks.BEFORE_SWAP_FLAG);
 
         // Mine a salt that will produce a hook address with the correct flags
-        bytes memory constructorArgs = abi.encode(manager);
+        bytes memory constructorArgs = abi.encode(manager, emailVerifier);
         (address hookAddress, bytes32 salt) =
             HookMiner.find(CREATE2_DEPLOYER, flags, type(GatedPoolHook).creationCode, constructorArgs);
 
