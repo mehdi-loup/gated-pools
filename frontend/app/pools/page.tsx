@@ -2,38 +2,10 @@
 
 import Navbar from "@/components/navbar"
 import { useFetchPools } from "@/hooks/gated-pool/useFetchPools";
+import { formatAddress } from "@/utils/address";
 import { TrendingUp, Users, Lock, Zap } from "lucide-react"
 
 export default function PoolsPage() {
-  // const pools = [
-  //   {
-  //     name: "Ethereum Foundation Pool",
-  //     domain: "ethereum.org",
-  //     token: "ETH",
-  //     tvl: "$2.4M",
-  //     volume24h: "$156K",
-  //     members: 45,
-  //     apy: "12.4%",
-  //   },
-  //   {
-  //     name: "Uniswap Labs Pool",
-  //     domain: "uniswap.org",
-  //     token: "UNI",
-  //     tvl: "$890K",
-  //     volume24h: "$67K",
-  //     members: 28,
-  //     apy: "8.7%",
-  //   },
-  //   {
-  //     name: "Compound Finance Pool",
-  //     domain: "compound.finance",
-  //     token: "COMP",
-  //     tvl: "$1.2M",
-  //     volume24h: "$89K",
-  //     members: 32,
-  //     apy: "15.2%",
-  //   },
-  // ];
   const {pools, error} = useFetchPools()
 
   return (
@@ -49,8 +21,9 @@ export default function PoolsPage() {
           {pools.map((pool, index) => (
             <div key={index} className="card bg-base-200 shadow-xl token-card">
               <div className="card-body">
-                <h3 className="card-title text-lg">{pool.name}</h3>
-                <p className="text-sm opacity-70 mb-4">@{pool.poolId}</p>
+                <h3 className="card-title text-lg">{pool.name??'N/A'}</h3>
+                <p className="text-sm opacity-70 mb-4">{formatAddress
+                (pool.poolId)}</p>
 
                 <div className="space-y-3">
                   <div className="flex justify-between">
