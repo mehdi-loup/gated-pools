@@ -58,5 +58,3 @@ const useCreateGatedPool = (
 
   return { createPool, status };
 };
-
-export default useCreateGatedPool;

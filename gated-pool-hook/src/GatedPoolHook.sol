@@ -22,7 +22,7 @@ contract GatedPoolHook is BaseHook {
 
     IEmailVerifier public immutable EMAIL_VERIFIER;
 
-    event VerificationParamsSetup(PoolId poolId, bytes32 domainHash);
+    event VerificationParamsSetup(PoolId indexed poolId, bytes32 indexed domainHash);
 
     error Unauthorized();
     error WRONG_HOOK();
