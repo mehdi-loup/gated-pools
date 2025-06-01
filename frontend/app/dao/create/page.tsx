@@ -15,7 +15,7 @@ export default function CreateDAOPage() {
     tokenAddress: "" as `0x${string}`,
   });
   const [submitting, setIsSubmitting] = useState(false);
-  const [success, setIsSuccess] = useState(true);
+  const [success, setIsSuccess] = useState(false);
   const { createPool, status } = useCreateGatedPool(formData.tokenAddress, 0, 100, keccak256(stringToBytes(formData.domainName)))
   const isSubmitting = submitting || status === 'pending';
   const isSuccess = success || status === 'success';
