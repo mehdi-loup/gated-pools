@@ -15,7 +15,7 @@ export default function CreateDAOPage() {
     tokenAddress: "" as `0x${string}`,
   });
   const [submitting, setIsSubmitting] = useState(false);
-  const [success, setIsSuccess] = useState(false);
+  const [success, setIsSuccess] = useState(true);
   const { createPool, status } = useCreateGatedPool(formData.tokenAddress, 0, 100, keccak256(stringToBytes(formData.domainName)))
   const isSubmitting = submitting || status === 'pending';
   const isSuccess = success || status === 'success';
@@ -52,7 +52,7 @@ export default function CreateDAOPage() {
                 </p>
                 <div className="alert alert-info">
                   <Shield className="w-5 h-5" />
-                  <span>Pool verification and email domain setup instantly.</span>
+                  <span>Pool verification and email domain setup and ready.</span>
                 </div>
                 <div className="card-actions justify-center mt-6">
                   <button className="btn btn-primary" onClick={() => setIsSuccess(false)}>

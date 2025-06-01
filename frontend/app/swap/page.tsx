@@ -8,6 +8,7 @@ import { DAOItem } from "./components/DaoItem"
 import { getTargetEmailAddressAndId } from "@/hooks/vlayer/helpers"
 import { PendingEmailVerification } from "./components/PendingEmailVerification"
 import { SwapForm } from "./components/SwapForm"
+import Link from "next/link"
 
 export default function SwapPage() {
   const [emailContent, setEmailContent] = useState("")
@@ -54,6 +55,7 @@ export default function SwapPage() {
 
                   setSelectedDao(nextDao);
                 }}>
+                  <option key='default' value='' className="h-auto py-3">Pick a dao</option>
                   {DAO_MAPPING.map((dao) => (
                     <option key={dao.name} value={dao.name} className="h-auto py-3">
                       {dao.name}
@@ -65,9 +67,9 @@ export default function SwapPage() {
                   <button className="btn btn-primary" onClick={handleSubmitDao} disabled={!selectedDao?.expectedDomain}>
                     {selectedDao ? `I work for ${selectedDao.name} ✓` : "No dao selected"}
                   </button>
-                  <button className="btn btn-ghost" onClick={resetSwap}>
+                  <Link className="btn btn-ghost" href='/'>
                     Cancel
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
