@@ -36,7 +36,7 @@ export default function HomePage() {
       {/* Features Section */}
       <div className="py-20 bg-base-200">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-16">Why Choose ChainGate?</h2>
+          <h2 className="text-4xl font-bold text-center mb-16">Why Choose GatedPools?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="card bg-base-100 shadow-xl token-card">
               <div className="card-body text-center">

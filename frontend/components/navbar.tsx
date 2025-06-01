@@ -7,8 +7,8 @@ export default function Navbar() {
     <div className="navbar bg-base-200 shadow-lg">
       <div className="navbar-start">
         <Link href="/" className="btn btn-ghost normal-case text-xl">
-          <Shield className="w-6 h-6 mr-2 text-primary" />
-          ChainGate DEX
+          <img src='/logos/gated-pool-logo.jpeg' alt='Logo' className="w-8 h-8 rounded-full mr-1" />
+          GatedPools
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">

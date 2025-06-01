@@ -8,7 +8,7 @@ import { Providers } from "./providers"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "ChainGate DEX - Gated Cross-Chain Liquidity Pools",
+  title: "GatedPools - Gated Cross-Chain Liquidity Pools",
   description: "Private, low-fee swapping environment for DAOs and foundations",
     generator: 'v0.dev'
 }
