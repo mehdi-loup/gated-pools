@@ -4,9 +4,10 @@ import type React from "react"
 
 import { useState } from "react"
 import Navbar from "@/components/navbar"
-import { Building2, Coins, Shield, CheckCircle } from "lucide-react"
+import { Building2, Coins, Shield, CheckCircle, AlertCircle } from "lucide-react"
 import useCreateGatedPool from "@/hooks/gated-pool/useCreateGatedPool"
 import { Hex, keccak256, stringToBytes } from "viem"
+import Link from "next/link"
 
 export default function CreateDAOPage() {
   const [formData, setFormData] = useState({
@@ -57,7 +58,7 @@ export default function CreateDAOPage() {
                   <button className="btn btn-primary" onClick={() => setIsSuccess(false)}>
                     Create Another Pool
                   </button>
-                  <button className="btn btn-accent">View Pool Dashboard</button>
+                  <Link href="/pools" className="btn btn-accent">View Pools</Link>
                 </div>
               </div>
             </div>
@@ -160,6 +161,13 @@ export default function CreateDAOPage() {
                 </div>
 
                 <div className="card-actions justify-end pt-6">
+                  {/* Error message */}
+                  {status === 'error' && <div className="alert alert-error h-full">
+                    <AlertCircle className="w-5 h-5" />
+                    <div>
+                      <h4 className="font-semibold">Pool creation failed</h4>
+                    </div>
+                  </div>}
                   <button
                     type="submit"
                     className={`btn btn-primary btn-lg ${isSubmitting ? "loading" : ""}`}
