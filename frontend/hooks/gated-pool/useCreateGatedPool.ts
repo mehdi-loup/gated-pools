@@ -3,13 +3,14 @@ import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { GATED_POOL_HOOK_ADDRESS } from "./helpers";
 import { GatedPoolHookAbi } from "./abis/GatedPoolHookAbi";
 import { Address, Hex } from "viem";
-import { DAO_TOKEN_ADDRESS,USDC_TOKEN_ADDRESS } from "../vlayer/helpers";
+import { USDC_TOKEN_ADDRESS } from "../vlayer/helpers";
 
 const useCreateGatedPool = (
+  daoTokenAddress: `0x${string}`,
   fee: number,
   initialTickSpacing: number,
   domainHash: Hex,
-): { createPool: () => Promise<void>; status: 'pending' | 'success' | 'idle' | 'error' } => {
+): { createPool: (cb:React.Dispatch<React.SetStateAction<boolean>>) => Promise<void>; status: 'pending' | 'success' | 'idle' | 'error' } => {
   const [status, setStatus] = useState<'pending' | 'success' | 'idle' | 'error'>('idle');
 
   const { writeContractAsync, data, isPending } = useWriteContract();
@@ -35,7 +36,7 @@ const useCreateGatedPool = (
         functionName: "initializeGatedPool",
         args: [
           {
-            currency0: DAO_TOKEN_ADDRESS as `0x`,
+            currency0: daoTokenAddress,
             currency1: USDC_TOKEN_ADDRESS as `0x`,
             fee,
             tickSpacing: initialTickSpacing,

@@ -6,17 +6,16 @@ import { useState } from "react"
 import Navbar from "@/components/navbar"
 import { Building2, Coins, Shield, CheckCircle } from "lucide-react"
 import useCreateGatedPool from "@/hooks/gated-pool/useCreateGatedPool"
-import { Address, Hex, keccak256, stringToBytes } from "viem"
-import { stat } from "fs"
+import { Hex, keccak256, stringToBytes } from "viem"
 
 export default function CreateDAOPage() {
   const [formData, setFormData] = useState({
     domainName: "" as Hex,
-    tokenAddress: "" as Address,
+    tokenAddress: "" as `0x${string}`,
   });
   const [submitting, setIsSubmitting] = useState(false);
   const [success, setIsSuccess] = useState(false);
-  const { createPool, status } = useCreateGatedPool(0, 100, keccak256(stringToBytes(formData.domainName)))
+  const { createPool, status } = useCreateGatedPool(formData.tokenAddress, 0, 100, keccak256(stringToBytes(formData.domainName)))
   const isSubmitting = submitting || status === 'pending';
   const isSuccess = success || status === 'success';
 
@@ -24,11 +23,9 @@ export default function CreateDAOPage() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate API call
-    await createPool();
+    await createPool(setIsSuccess);
 
     setIsSubmitting(false)
-    setIsSuccess(true)
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

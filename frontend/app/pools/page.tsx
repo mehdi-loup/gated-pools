@@ -35,7 +35,7 @@ export default function PoolsPage() {
   //   },
   // ];
   const {pools, error} = useFetchPools()
-console.log(pools,error)
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -49,7 +49,7 @@ console.log(pools,error)
           {pools.map((pool, index) => (
             <div key={index} className="card bg-base-200 shadow-xl token-card">
               <div className="card-body">
-                <h3 className="card-title text-lg">{pool.domainHash}</h3>
+                <h3 className="card-title text-lg">{pool.name}</h3>
                 <p className="text-sm opacity-70 mb-4">@{pool.poolId}</p>
 
                 <div className="space-y-3">

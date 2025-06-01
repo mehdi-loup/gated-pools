@@ -6,8 +6,7 @@ import { DAO_MAPPING, Pool } from "../vlayer/daoMapping";
 
 // ABI for the event we want to listen to
 const eventAbi = parseAbiItem(
-  // "event VerificationParamsSetup(bytes32 indexed poolId, bytes32 domainHash)",
-  "event VerificationParamsSetup(PoolId poolId, bytes32 domainHash)",
+  "event VerificationParamsSetup(bytes32 poolId, bytes32 domainHash)",
 );
 
 /**
@@ -46,6 +45,7 @@ export function useFetchPools() {
             data: log.data,
             topics: log.topics,
           });
+
           const dao = DAO_MAPPING.find(
             (d) =>
               d.domainHash.toLowerCase() ==
