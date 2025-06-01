@@ -4,7 +4,6 @@ import { useState } from "react"
 import Navbar from "@/components/navbar"
 import { Mail, Shield, CheckCircle, AlertCircle, House } from "lucide-react"
 import { DAO, DAO_MAPPING } from "@/hooks/vlayer/daoMapping"
-import { DAOItem } from "./components/DaoItem"
 import { getTargetEmailAddressAndId } from "@/hooks/vlayer/helpers"
 import { PendingEmailVerification } from "./components/PendingEmailVerification"
 import { SwapForm } from "./components/SwapForm"
@@ -50,18 +49,34 @@ export default function SwapPage() {
                   Only select a DAO for which you have access to an email associated with it.
                 </p>
 
-                <select defaultValue="Pick a dao" className="select" onChange={({ target: { value } }) => {
-                  const nextDao = DAO_MAPPING.find(({ name }) => name === value);
-
-                  setSelectedDao(nextDao);
-                }}>
-                  <option key='default' value='' className="h-auto py-3">Pick a dao</option>
-                  {DAO_MAPPING.map((dao) => (
-                    <option key={dao.name} value={dao.name} className="h-auto py-3">
-                      {dao.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="dropdown w-1/2">
+                  <button tabIndex={0} className="btn btn-outline w-full justify-between">
+                    {selectedDao ? (
+                      <div className="flex items-center gap-2">
+                        <img src={selectedDao.iconURL} alt={`${selectedDao.name} logo`} className="w-6 h-6 rounded-full" />
+                        {selectedDao.name}
+                      </div>
+                    ) : (
+                      "Pick a dao"
+                    )}
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-full mt-2">
+                    {DAO_MAPPING.map((dao) => (
+                      <li key={dao.name}>
+                        <button
+                          onClick={() => setSelectedDao(dao)}
+                          className="flex items-center gap-2"
+                        >
+                          <img src={dao.iconURL} alt={`${dao.name} logo`} className="w-6 h-6 rounded-full" />
+                          {dao.name}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
                 <div className="card-actions justify-center mt-6">
                   <button className="btn btn-primary" onClick={handleSubmitDao} disabled={!selectedDao?.expectedDomain}>
